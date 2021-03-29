@@ -1,13 +1,15 @@
+import { supabase, SupabaseContext } from "@api";
+import { App } from "@components/App";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 
-import "./index.scss";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <StrictMode>
-    <App />
+    <SupabaseContext.Provider value={supabase}>
+      <App />
+    </SupabaseContext.Provider>
   </StrictMode>,
   document.getElementById("root")
 );

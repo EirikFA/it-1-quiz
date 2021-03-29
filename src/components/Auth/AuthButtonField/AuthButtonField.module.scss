@@ -1,0 +1,48 @@
+.authButton {
+  min-width: 210px;
+}
+
+.authButtonDark {
+  composes: authButton;
+  color: #ffffff;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: #ffffff;
+  }
+}
+
+.google {
+  composes: authButtonDark;
+  background-color: #4285f4;
+
+  &:hover,
+  &:active,
+  &:focus {
+    // Same as non-hover, minus 7 for each value (Bulma does this for dark buttons=
+    background-color: #3b7eed;
+  }
+}
+
+.gitHub {
+  composes: authButtonDark;
+  background-color: #24292e;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #1d2227;
+  }
+}
+
+.facebook {
+  composes: authButtonDark;
+  background-color: #4267b2;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #3b60ab;
+  }
+}

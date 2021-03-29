@@ -8,17 +8,41 @@
       "@api/*": [
         "api/*"
       ],
+      "@assets": [
+        "assets"
+      ],
+      "@assets/*": [
+        "assets/*"
+      ],
       "@components": [
         "components"
       ],
       "@components/*": [
         "components/*"
       ],
+      "@hooks": [
+        "hooks"
+      ],
+      "@hooks/*": [
+        "hooks/*"
+      ],
       "@pages": [
         "pages"
       ],
       "@pages/*": [
         "pages/*"
+      ],
+      "@types": [
+        "types"
+      ],
+      "@types/*": [
+        "types/*"
+      ],
+      "@utils": [
+        "utils"
+      ],
+      "@utils/*": [
+        "utils/*"
       ]
     }
   }
