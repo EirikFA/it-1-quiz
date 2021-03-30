@@ -1,3 +1,6 @@
+import "@fortawesome/fontawesome-free/css/all.css";
+import "./bulma.scss";
+
 import { supabase, SupabaseContext } from "@api";
 import { App } from "@components/App";
 import { StrictMode } from "react";

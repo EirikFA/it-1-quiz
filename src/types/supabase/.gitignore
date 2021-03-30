@@ -1,0 +1,2 @@
+# Put types generated from OpenAPI schema in this directory (`openAPI.ts`)
+openAPI.ts

@@ -1,5 +1,3 @@
-import "./AuthenticatedApp.scss";
-
 import { useSupabase } from "@hooks";
 import { BrowsePage, MePage } from "@pages";
 import { Fragment, FunctionComponent } from "react";

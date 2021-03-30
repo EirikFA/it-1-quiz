@@ -1,6 +1,3 @@
-import "@fortawesome/fontawesome-free/css/all.css";
-import "./UnauthenticatedApp.scss";
-
 import { AuthPrompt } from "@components/Auth";
 import { useSupabase } from "@hooks";
 import { AuthProvider } from "@types";

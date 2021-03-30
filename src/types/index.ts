@@ -1,1 +1,2 @@
-export * from "./Auth";
+export * from "./auth";
+export * from "./supabase";

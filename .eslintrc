@@ -167,6 +167,15 @@
       "error",
       "unix"
     ],
+    "max-len": [
+      "error",
+      100,
+      2,
+      {
+        "ignoreComments": false,
+        "ignoreTemplateLiterals": true
+      }
+    ],
     "no-restricted-syntax": [
       "error",
       {

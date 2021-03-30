@@ -7,7 +7,9 @@ import { ButtonProps } from "react-bulma-components/src/components/button";
 
 import styles from "./AuthButtonField.module.scss";
 
-export type AuthButtonFieldProps = ButtonProps & ElementProps<ButtonProps, "button"> & { provider?: AuthProvider };
+export type AuthButtonFieldProps = ButtonProps & ElementProps<ButtonProps, "button"> & {
+  provider?: AuthProvider
+};
 
 const AuthButtonField: FunctionComponent<AuthButtonFieldProps> = ({
   provider,
