@@ -1,26 +1,29 @@
+import { quizSchema } from "@api/validation";
 import { TextInput } from "@components/Form";
 import { Quiz } from "@types";
 import {
-  ErrorMessage, Field, FieldArray, Form as FormikForm, FormikProps
+  ErrorMessage, Field, FieldArray, FormikErrors, Form as FormikForm, FormikProps
 } from "formik";
 import { FunctionComponent, useState } from "react";
 import {
   Button, Columns, Form, Icon
 } from "react-bulma-components";
+import { TypeOf } from "yup";
 
-const QuizForm: FunctionComponent<FormikProps<Quiz> & { loading: boolean }> = ({
-  values: { questions },
+export type QuizFormProps = FormikProps<TypeOf<typeof quizSchema>> & { loading: boolean };
+
+const QuizForm: FunctionComponent<QuizFormProps> = ({
+  values: { image, questions },
   errors,
   setFieldValue,
-  isValid,
   loading
 }) => {
   const [questionI, setQuestionI] = useState(0);
-  const { options } = questions[questionI];
+  const options = questions ? questions[questionI].options : [];
 
   const removeQuestion = (): void => {
     if (questionI > 0) {
-      const newQuestions = questions.slice();
+      const newQuestions = questions ? questions.slice() : [];
       newQuestions.splice(questionI, 1);
       setQuestionI(questionI - 1);
       setFieldValue("questions", newQuestions);
@@ -34,9 +37,9 @@ const QuizForm: FunctionComponent<FormikProps<Quiz> & { loading: boolean }> = ({
 
   const nextQuestion = (): void => {
     const newQuestionI = questionI + 1;
-    if (questions[newQuestionI]) setQuestionI(newQuestionI);
+    if (questions && questions[newQuestionI]) setQuestionI(newQuestionI);
     else {
-      const newQuestions = questions.slice();
+      const newQuestions = questions ? questions.slice() : [];
 
       newQuestions.push({
         prompt: "",
@@ -61,6 +64,25 @@ const QuizForm: FunctionComponent<FormikProps<Quiz> & { loading: boolean }> = ({
     <FormikForm>
       <Field name="name" label="Quiz name" placeholder="My quiz" component={TextInput} />
 
+      <Form.Field>
+        <Form.Label>Image</Form.Label>
+
+        <Form.Control>
+          <Form.InputFile
+            icon={<Icon><i className="fas fa-upload" /></Icon>}
+            boxed
+            filename={image?.name}
+            onChange={({ target: { files } }) => setFieldValue("image", files && files[0])}
+          />
+
+          <ErrorMessage
+            name="image"
+            component="p"
+            className="help is-danger"
+          />
+        </Form.Control>
+      </Form.Field>
+
       <div className="ml-4">
         <h4 className="title is-4">Questions</h4>
         <Columns>
@@ -71,7 +93,7 @@ const QuizForm: FunctionComponent<FormikProps<Quiz> & { loading: boolean }> = ({
                 value={questionI}
                 onChange={e => setQuestionI(parseInt(e.target.value, 10))}
               >
-                {questions.map((_, index) => (
+                {questions && questions.map((_, index) => (
                   <option
                   // eslint-disable-next-line react/no-array-index-key
                     key={index}
@@ -94,11 +116,12 @@ const QuizForm: FunctionComponent<FormikProps<Quiz> & { loading: boolean }> = ({
               {({ push, remove }) => {
                 const questionError = errors.questions
                       && typeof errors.questions !== "string"
-                  ? errors.questions[questionI] : undefined;
+                  // No idea what the hell is going on with Formik and Yup types
+                  ? (errors.questions as FormikErrors<Quiz["questions"]>)[questionI] : undefined;
 
                 const optionsError = typeof questionError !== "string"
                       && typeof questionError?.options === "string"
-                  ? questionError.options : null;
+                  ? questionError.options : undefined;
 
                 return (
                   <div className="ml-4">
@@ -211,7 +234,6 @@ const QuizForm: FunctionComponent<FormikProps<Quiz> & { loading: boolean }> = ({
       <Button
         color="link"
         loading={loading}
-        disabled={!isValid}
         type="submit"
         className="mt-6"
       >Create quiz

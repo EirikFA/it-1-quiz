@@ -9,7 +9,7 @@ const useSession = (): Session | null => {
   useEffect(() => {
     const { data } = client.auth.onAuthStateChange((_event, newSession) => setSession(newSession));
     return () => data?.unsubscribe();
-  }, []);
+  }, [client]);
 
   return session;
 };

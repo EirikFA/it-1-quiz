@@ -6,12 +6,13 @@ export const addQuiz = async (
   supabase: SupabaseClient,
   orig: Quiz,
   author: string
-): Promise<void> => {
+): Promise<Definitions["quizzes"]> => {
   const { data: quizData, error: quizError } = await supabase
     .from<Definitions["quizzes"]>("quizzes")
     .insert({
       author_id: author,
-      name: orig.name
+      name: orig.name,
+      image_url: orig.image_url
     });
   if (!quizData || quizError) {
     throw new Error(quizError?.message ?? "Failed to add quiz");
@@ -43,4 +44,6 @@ export const addQuiz = async (
   if (!optionData || optionError) {
     throw new Error(optionError?.message ?? "Failed to add quiz");
   }
+
+  return quizData[0];
 };

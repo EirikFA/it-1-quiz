@@ -8,21 +8,15 @@ import { FunctionComponent, useState } from "react";
 import {
   Button, Container, Heading, Icon, Section
 } from "react-bulma-components";
+import { TypeOf } from "yup";
 
-const initialForm: Quiz = {
+const initialForm: TypeOf<typeof quizSchema> = {
   name: "",
+  image: undefined,
   questions: [
     {
       prompt: "",
       options: [
-        {
-          text: "",
-          is_correct: false
-        },
-        {
-          text: "",
-          is_correct: true
-        },
         {
           text: "",
           is_correct: true
@@ -72,7 +66,27 @@ const MePage: FunctionComponent = () => {
             });
 
             try {
-              await addQuiz(supabase, values, session.user.id);
+              const fileExt = (values.image as File).name.split(".").pop();
+              const fileName = `image-${Math.random()}.${fileExt}`;
+              const filePath = `${session.user.id}/${fileName}`;
+
+              await supabase.storage
+                .from("quizzes")
+                .upload(filePath, values.image);
+
+              const data = {
+                ...values,
+                image: undefined,
+                image_url: filePath
+              };
+
+              await addQuiz(
+                supabase,
+                // After validation
+                data as Quiz,
+                session.user.id
+              );
+
               setIsFormActive(false);
               setFormStatus({
                 error: false,
