@@ -2,7 +2,9 @@ import QuizList, { QuizItem } from "@components/Quiz/QuizList";
 import { useSupabase } from "@hooks";
 import { RealtimeSubscription, SupabaseRealtimePayload } from "@supabase/supabase-js";
 import { Definitions } from "@types";
-import { FunctionComponent, useEffect, useState } from "react";
+import {
+  FunctionComponent, useCallback, useEffect, useState
+} from "react";
 import { Container, Section } from "react-bulma-components";
 
 const quizColumns = `
@@ -21,7 +23,7 @@ const BrowsePage: FunctionComponent = () => {
   const [quizzes, setQuizzes] = useState<QuizItem[]>([]);
   const [error, setError] = useState("");
 
-  const fetchQuizzes = async (): Promise<void> => {
+  const fetchQuizzes = useCallback(async (): Promise<void> => {
     const { data, error: quizzesError } = await supabase
       .from<QuizItem>("quizzes")
       .select(quizColumns);
@@ -31,9 +33,9 @@ const BrowsePage: FunctionComponent = () => {
     } else {
       setQuizzes(data);
     }
-  };
+  }, [supabase]);
 
-  const handleInsert = async (
+  const handleInsert = useCallback(async (
     { new: { id } }: SupabaseRealtimePayload<Definitions["quizzes"]>
   ): Promise<void> => {
     // Ignoring errors for subscription because we don't really care about them :(
@@ -51,7 +53,7 @@ const BrowsePage: FunctionComponent = () => {
         return newQuizzes;
       });
     }
-  };
+  }, [supabase]);
 
   const handleUpdate = async (
     { new: { id, ...changes } }: SupabaseRealtimePayload<Definitions["quizzes"]>
@@ -109,7 +111,7 @@ const BrowsePage: FunctionComponent = () => {
     return () => {
       subscriptions.forEach(sub => sub.unsubscribe());
     };
-  }, []);
+  }, [fetchQuizzes, handleInsert, supabase]);
 
   if (error) {
     return <p>{error}</p>;

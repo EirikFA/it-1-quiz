@@ -1,5 +1,7 @@
-import { useSupabase } from "@hooks";
-import { FunctionComponent, useEffect, useState } from "react";
+import { useImageURL } from "@hooks";
+import {
+  FunctionComponent
+} from "react";
 import { Card, Content } from "react-bulma-components";
 import { Link } from "wouter";
 
@@ -13,20 +15,7 @@ export interface QuizCardProps {
 const QuizCard: FunctionComponent<QuizCardProps> = ({
   id, author, name, imagePath
 }) => {
-  const { storage } = useSupabase();
-  const [imageUrl, setImageUrl] = useState("https://via.placeholder.com/1600x900");
-
-  const downloadImage = async (path: string): Promise<void> => {
-    const { data } = await storage.from("quizzes").download(path);
-    if (data) {
-      const url = URL.createObjectURL(data);
-      setImageUrl(url);
-    }
-  };
-
-  useEffect(() => {
-    if (imagePath) downloadImage(imagePath);
-  }, [imagePath]);
+  const imageUrl = useImageURL(imagePath ?? "sample.png");
 
   return (
     <Card>
