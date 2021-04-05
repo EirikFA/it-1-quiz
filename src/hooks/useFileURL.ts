@@ -1,25 +1,30 @@
 import { useSupabase } from "@hooks";
 import { useCallback, useEffect, useState } from "react";
 
-const useImageURL = (path: string): string => {
+const useFileURL = (bucket: string, path: string): { loading: boolean, url: string | null } => {
   const { storage } = useSupabase();
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const download = useCallback(async () => {
-    const { data } = await storage.from("quizzes").download(path);
+    const { data } = await storage.from(bucket).download(path);
     if (data) {
       setUrl(URL.createObjectURL(data));
     }
+    setLoading(false);
   // Setting `storage` as a dependency will for some reason make the component re-render
   // and constantly change the blob/image source
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [path]);
+  }, [bucket, path]);
 
   useEffect(() => {
     download();
   }, [download]);
 
-  return url;
+  return {
+    loading,
+    url
+  };
 };
 
-export default useImageURL;
+export default useFileURL;

@@ -2,7 +2,7 @@ import { addQuiz } from "@api/quiz";
 import { quizSchema } from "@api/validation";
 import QuizForm from "@components/Form/Quiz";
 import { useSession, useSupabase } from "@hooks";
-import { Quiz } from "@types";
+import { QuizInput } from "@types";
 import { Formik } from "formik";
 import { FunctionComponent, useState } from "react";
 import {
@@ -83,7 +83,7 @@ const MePage: FunctionComponent = () => {
               await addQuiz(
                 supabase,
                 // After validation
-                data as Quiz,
+                data as QuizInput,
                 session.user.id
               );
 

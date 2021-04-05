@@ -1,6 +1,6 @@
 import { quizSchema } from "@api/validation";
 import { TextInput } from "@components/Form";
-import { Quiz } from "@types";
+import { QuizInput } from "@types";
 import {
   ErrorMessage, Field, FieldArray, FormikErrors, Form as FormikForm, FormikProps
 } from "formik";
@@ -117,7 +117,8 @@ const QuizForm: FunctionComponent<QuizFormProps> = ({
                 const questionError = errors.questions
                       && typeof errors.questions !== "string"
                   // No idea what the hell is going on with Formik and Yup types
-                  ? (errors.questions as FormikErrors<Quiz["questions"]>)[questionI] : undefined;
+                  ? (errors.questions as FormikErrors<QuizInput["questions"]>)[questionI]
+                  : undefined;
 
                 const optionsError = typeof questionError !== "string"
                       && typeof questionError?.options === "string"

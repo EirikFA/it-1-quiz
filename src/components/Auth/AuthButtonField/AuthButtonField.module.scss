@@ -1,48 +1,52 @@
+@import "~bulma/sass/utilities/all";
+
+$google: #4285f4;
+// Same as base color, minus 7 for each value (Bulma does this for hover)
+$googleDark: #3b7eed;
+$gitHub: #24292e;
+$gitHubDark: #1d2227;
+$facebook: #4267b2;
+$facebookDark: #3b60ab;
+
 .authButton {
   min-width: 210px;
 }
 
-.authButtonDark {
-  composes: authButton;
-  color: #ffffff;
-
-  &:hover,
-  &:active,
-  &:focus {
-    color: #ffffff;
-  }
-}
-
 .google {
-  composes: authButtonDark;
-  background-color: #4285f4;
+  composes: authButton;
+  background-color: $google;
+  color: findColorInvert($google);
 
   &:hover,
   &:active,
   &:focus {
-    // Same as non-hover, minus 7 for each value (Bulma does this for dark buttons=
-    background-color: #3b7eed;
+    background-color: $googleDark;
+    color: findColorInvert($googleDark);
   }
 }
 
 .gitHub {
-  composes: authButtonDark;
-  background-color: #24292e;
+  composes: authButton;
+  background-color: $gitHub;
+  color: findColorInvert($gitHub);
 
   &:hover,
   &:active,
   &:focus {
-    background-color: #1d2227;
+    background-color: $gitHubDark;
+    color: findColorInvert($gitHubDark);
   }
 }
 
 .facebook {
-  composes: authButtonDark;
-  background-color: #4267b2;
+  composes: authButton;
+  background-color: $facebook;
+  color: findColorInvert($facebook);
 
   &:hover,
   &:active,
   &:focus {
-    background-color: #3b60ab;
+    background-color: $facebookDark;
+    color: findColorInvert($facebookDark);
   }
 }

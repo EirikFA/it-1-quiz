@@ -1,4 +1,4 @@
-import { useImageURL } from "@hooks";
+import { useFileURL } from "@hooks";
 import {
   FunctionComponent
 } from "react";
@@ -15,11 +15,15 @@ export interface QuizCardProps {
 const QuizCard: FunctionComponent<QuizCardProps> = ({
   id, author, name, imagePath
 }) => {
-  const imageUrl = useImageURL(imagePath ?? "sample.png");
+  const { loading: loadingImage, url: imageUrl } = useFileURL("quizzes", `${imagePath}` ?? "sample.png");
 
   return (
     <Card>
-      <Card.Image size="16by9" src={imageUrl} alt="Quiz image" />
+      <Card.Image
+        size="16by9"
+        src={imageUrl ?? undefined}
+        className={loadingImage ? "is-loading" : undefined}
+      />
 
       <Card.Content>
         <Content>

@@ -2,12 +2,23 @@ import { Definitions } from "./openAPI";
 
 export * from "./openAPI";
 
-export type QuestionOption = Omit<Definitions["question_options"], "id" | "question_id">;
+export type QuestionOption = Definitions["question_options"];
 
-export type Question = Omit<Definitions["questions"], "id" | "quiz_id"> & {
+export type Question = Definitions["questions"] & {
   options: QuestionOption[];
 };
 
-export type Quiz = Omit<Definitions["quizzes"], "id" | "author_id"> & {
+export type Quiz = Definitions["quizzes"] & {
   questions: Question[];
+  author: Definitions["users"];
+};
+
+export type QuestionOptionInput = Omit<QuestionOption, "id" | "question_id">;
+
+export type QuestionInput = Omit<Question, "id" | "quiz_id" | "options"> & {
+  options: QuestionOptionInput[];
+};
+
+export type QuizInput = Omit<Quiz, "id" | "author_id" | "author" | "questions"> & {
+  questions: QuestionInput[];
 };

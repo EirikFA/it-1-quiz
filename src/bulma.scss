@@ -1,4 +1,20 @@
 @import "~bulma/sass/utilities/all";
+
+.is-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.5;
+  &:after {
+    @include loader;
+    position: absolute;
+    top: calc(50% - 2.5em);
+    left: calc(50% - 2.5em);
+    width: 5em;
+    height: 5em;
+    border-width: 0.25em;
+  }
+}
+
 @import "~bulma/sass/base/all";
 
 @import "~bulma/sass/helpers/color";
@@ -6,16 +22,19 @@
 @import "~bulma/sass/helpers/other";
 @import "~bulma/sass/helpers/spacing";
 @import "~bulma/sass/helpers/typography";
+@import "~bulma/sass/helpers/visibility";
 
 @import "~bulma/sass/layout/hero";
 @import "~bulma/sass/layout/section";
 
 @import "~bulma/sass/grid/columns";
 
+@import "~bulma/sass/elements/box";
 @import "~bulma/sass/elements/button";
 @import "~bulma/sass/elements/container";
 @import "~bulma/sass/elements/content";
 @import "~bulma/sass/elements/image";
+@import "~bulma/sass/elements/other";
 @import "~bulma/sass/elements/title";
 
 @import "~bulma/sass/components/card";

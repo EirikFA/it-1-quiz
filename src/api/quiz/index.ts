@@ -1,10 +1,10 @@
 /* eslint-disable import/prefer-default-export */
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Definitions, Quiz } from "@types";
+import { Definitions, QuizInput } from "@types";
 
 export const addQuiz = async (
   supabase: SupabaseClient,
-  orig: Quiz,
+  orig: QuizInput,
   author: string
 ): Promise<Definitions["quizzes"]> => {
   const { data: quizData, error: quizError } = await supabase
