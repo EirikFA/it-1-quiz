@@ -45,7 +45,7 @@ const PlayPage: FunctionComponent<RouteComponentProps<PlayPageParams>> = ({ para
 
   const { loading: loadingImage, url: imageUrl } = useFileURL(
     "quizzes",
-    quiz?.image_url ?? "sample.png"
+    quiz?.image_url
   );
 
   const [status, setStatus] = useState({
@@ -92,8 +92,8 @@ const PlayPage: FunctionComponent<RouteComponentProps<PlayPageParams>> = ({ para
     }
   };
 
-  if (loading) return <div>Loading..</div>;
-  if (!quiz || !questions || error) return <div>Failed to fetch quiz</div>;
+  if (loading || loadingImage) return <div>Loading..</div>;
+  if (!quiz || !questions || !imageUrl || error) return <div>Failed to fetch quiz</div>;
 
   return (
     <Section>
@@ -103,7 +103,7 @@ const PlayPage: FunctionComponent<RouteComponentProps<PlayPageParams>> = ({ para
           <Heading subtitle><i>By {quiz.author.name}</i></Heading>
           <Image
             src={imageUrl ?? undefined}
-            className={`${styles.headingImage}${loadingImage ? " is-loading" : ""}`}
+            className={styles.headingImage}
           />
         </div>
 

@@ -2,7 +2,7 @@ import {
   array, boolean, mixed, object, string
 } from "yup";
 
-export const IMAGE_TYPES = ["image/png", "image/jpg", "image/jpeg", "image/gif"];
+export const IMAGE_TYPES = ["image/png", "image/jpg", "image/jpeg", "image/gif", "image/webp"];
 
 export const questionOptionSchema = object({
   text: string().required().label("Option text"),

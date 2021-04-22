@@ -15,6 +15,12 @@
   }
 }
 
+.image-loading img {
+  line-height: 5;
+
+  text-align: center;
+}
+
 @import "~bulma/sass/base/all";
 
 @import "~bulma/sass/helpers/color";

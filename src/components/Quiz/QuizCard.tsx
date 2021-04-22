@@ -24,7 +24,9 @@ const QuizCard: FunctionComponent<QuizCardProps> = ({
       <Card.Image
         size="16by9"
         src={imageUrl ?? undefined}
-        className={`${styles.cardImage}${loadingImage ? " is-loading" : ""}`}
+        fallback=""
+        alt="Loading"
+        className={`${styles.cardImage}${loadingImage ? " is-loading image-loading" : ""}`}
       />
 
       <Card.Content>
