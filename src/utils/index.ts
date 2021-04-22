@@ -8,13 +8,13 @@ export const shuffle = <T>(array: T[]) => {
   let tempValue: T;
   let randomIdx: number;
 
-  // While there remain elements to shuffle...
+  // While there remain elements to shuffle
   while (currentIdx !== 0) {
-    // Pick a remaining element...
+    // Pick a remaining element
     randomIdx = Math.floor(Math.random() * currentIdx);
     currentIdx -= 1;
 
-    // And swap it with the current element.
+    // And swap it with the current element
     tempValue = out[currentIdx];
     out[currentIdx] = out[randomIdx];
     out[randomIdx] = tempValue;

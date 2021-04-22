@@ -1,0 +1,59 @@
+@import "~bulma/sass/utilities/all";
+
+.box {
+  composes: has-text-centered has-text-weight-bold has-text-white has-background-dark from global;
+
+  padding: 15px 20px;
+  
+  &:hover {
+    cursor: pointer;
+    background-color: $black-ter !important;
+  }
+
+  label {
+    cursor: pointer;
+  }
+}
+
+.disabledBox {
+  composes: box;
+
+  &:hover, label {
+    cursor: default;
+  }
+}
+
+.selected {
+  composes: box global(has-background-link);
+
+  &:hover {
+    background-color: $link-dark !important;
+  }
+}
+
+.correct {
+  composes: disabledBox global(has-background-success);
+
+  &:hover {
+    background-color: $success !important;
+  }
+}
+
+.incorrect {
+  composes: disabledBox global(has-background-danger);
+
+  &:hover {
+    background-color: $danger !important;
+  }
+}
+
+.label {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  right: 0;
+}

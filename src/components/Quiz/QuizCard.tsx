@@ -5,6 +5,8 @@ import {
 import { Card, Content } from "react-bulma-components";
 import { Link } from "wouter";
 
+import styles from "./QuizCard.module.scss";
+
 export interface QuizCardProps {
   id: number;
   author: string;
@@ -22,7 +24,7 @@ const QuizCard: FunctionComponent<QuizCardProps> = ({
       <Card.Image
         size="16by9"
         src={imageUrl ?? undefined}
-        className={loadingImage ? "is-loading" : undefined}
+        className={`${styles.cardImage}${loadingImage ? " is-loading" : ""}`}
       />
 
       <Card.Content>

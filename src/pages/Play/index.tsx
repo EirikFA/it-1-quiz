@@ -1,3 +1,4 @@
+import QuizQuestion from "@components/Quiz/QuizQuestion";
 import {
   useFileURL, useQuizzes, useSession, useSupabase
 } from "@hooks";
@@ -8,10 +9,7 @@ import {
   FunctionComponent, useMemo, useState
 } from "react";
 import {
-  Box,
-  Button,
-  Columns,
-  Container, Heading, Icon, Image, Section
+  Button, Container, Heading, Image, Section
 } from "react-bulma-components";
 import { RouteComponentProps } from "wouter";
 
@@ -50,8 +48,15 @@ const PlayPage: FunctionComponent<RouteComponentProps<PlayPageParams>> = ({ para
     quiz?.image_url ?? "sample.png"
   );
 
+  const [status, setStatus] = useState({
+    loading: false,
+    markOptions: false
+  });
+
   const [selected, setSelected] = useState<Map<number, QuestionOption>>(new Map());
   const toggleOption = (option: QuestionOption) => {
+    if (status.markOptions) return;
+
     setSelected(prev => {
       const newMap = new Map(prev);
       newMap.set(option.question_id, option);
@@ -60,10 +65,6 @@ const PlayPage: FunctionComponent<RouteComponentProps<PlayPageParams>> = ({ para
   };
 
   const [quizError, setQuizError] = useState("");
-  const [status, setStatus] = useState({
-    loading: false,
-    markOptions: false
-  });
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -75,6 +76,7 @@ const PlayPage: FunctionComponent<RouteComponentProps<PlayPageParams>> = ({ para
         ...prev,
         loading: true
       }));
+
       await supabase
         .from<Definitions["played_quizzes"]>("played_quizzes")
         .upsert({
@@ -108,51 +110,14 @@ const PlayPage: FunctionComponent<RouteComponentProps<PlayPageParams>> = ({ para
         <hr />
 
         <form onSubmit={handleSubmit}>
-          {questions.map(({ id: qId, prompt, options }) => (
+          {questions.map(({ id: qId, ...rest }) => (
             <div key={qId} className="block">
-              <Heading size={4}>{prompt}</Heading>
-
-              <Columns multiline>
-                {options.map((option, index) => {
-                  let boxClass = styles.optionBox;
-
-                  const forQuestion = selected.get(option.question_id);
-                  const showCheck = forQuestion?.id === option.id;
-
-                  if (forQuestion?.id === option.id) {
-                    if (status.markOptions && !option.is_correct) {
-                      boxClass = styles.incorrectOption;
-                    } else boxClass = styles.selectedOption;
-                  }
-
-                  if (status.markOptions && option.is_correct) {
-                    boxClass = styles.correctOption;
-                  }
-
-                  return (
-                    <Columns.Column
-                      key={option.id}
-                      size={4}
-                      offset={index % 2 === 0 ? 2 : undefined}
-                    >
-                      <Box
-                        className={boxClass}
-                        onClick={() => toggleOption(option)}
-                      >
-                        <label className={styles.optionLabel}>
-                          {option.text}
-                          <input type="checkbox" className="is-hidden" />
-                          {showCheck && (
-                            <Icon className={styles.optionIcon}>
-                              <i className="fas fa-check" />
-                            </Icon>
-                          )}
-                        </label>
-                      </Box>
-                    </Columns.Column>
-                  );
-                })}
-              </Columns>
+              <QuizQuestion
+                selectedOption={selected.get(qId)?.id}
+                shouldMark={status.markOptions}
+                onToggle={toggleOption}
+                {...rest}
+              />
 
               <hr />
             </div>
