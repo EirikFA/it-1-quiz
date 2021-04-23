@@ -16,6 +16,8 @@ export default {
 
 export const Default: Story<QuizListProps> = args => <QuizList {...args} />;
 
+const now = new Date();
+
 Default.args = {
   quizzes: [
     {
@@ -27,7 +29,8 @@ Default.args = {
         id: "not-a-uuid-:)",
         name: "Random person"
       },
-      questions: []
+      questions: [],
+      created_at: now
     },
     {
       id: 2,
@@ -38,7 +41,8 @@ Default.args = {
         id: "not-a-uuid-:)",
         name: "Random person"
       },
-      questions: []
+      questions: [],
+      created_at: now
     },
     {
       id: 3,
@@ -49,7 +53,8 @@ Default.args = {
         id: "not-a-uuid-:)",
         name: "Random person"
       },
-      questions: []
+      questions: [],
+      created_at: now
     },
     {
       id: 4,
@@ -60,7 +65,8 @@ Default.args = {
         id: "not-a-uuid-:)",
         name: "Random person"
       },
-      questions: []
+      questions: [],
+      created_at: now
     },
     {
       id: 5,
@@ -71,7 +77,8 @@ Default.args = {
         id: "not-a-uuid-:)",
         name: "Random person"
       },
-      questions: []
+      questions: [],
+      created_at: now
     },
     {
       id: 6,
@@ -82,7 +89,8 @@ Default.args = {
         id: "not-a-uuid-:)",
         name: "Random person"
       },
-      questions: []
+      questions: [],
+      created_at: now
     },
     {
       id: 7,
@@ -93,7 +101,8 @@ Default.args = {
         id: "not-a-uuid-:)",
         name: "Random person"
       },
-      questions: []
+      questions: [],
+      created_at: now
     },
     {
       id: 8,
@@ -104,7 +113,8 @@ Default.args = {
         id: "not-a-uuid-:)",
         name: "Random person"
       },
-      questions: []
+      questions: [],
+      created_at: now
     }
   ]
 };

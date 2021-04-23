@@ -1,7 +1,9 @@
 import { useSupabase } from "@hooks";
 import { RealtimeSubscription, SupabaseRealtimePayload } from "@supabase/supabase-js";
 import { Definitions, Quiz } from "@types";
-import { useCallback, useEffect, useState } from "react";
+import {
+  useCallback, useEffect, useState
+} from "react";
 
 export const quizColumns = `
   id,
@@ -27,10 +29,13 @@ export const questionOptionColumns = `
   question_id
 `;
 
+export type SortBy = "created" | "playCount";
+
 interface Result {
   loading: boolean;
   error: boolean;
   data: Quiz[] | null;
+  refetch: () => void;
 }
 
 // Inline the default for `filter` and watch the network log 👀
@@ -41,7 +46,9 @@ const defaultFilter = {};
 
 const useQuizzes = (
   filter: { [K in keyof Quiz]?: string } = defaultFilter,
-  depth?: "questions" | "question_options"
+  depth?: "questions" | "question_options",
+  sortBy: SortBy = "created",
+  nameQuery?: string
 ): Result => {
   let select = quizColumns;
 
@@ -70,18 +77,46 @@ const useQuizzes = (
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [quizzes, setQuizzes] = useState<Quiz[] | null>(null);
+  const [triggerFetch, setTriggerFetch] = useState(0);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchData = useCallback(async () => {
-    const { data, error: fetchError } = await supabase
-      .from<Quiz>("quizzes")
-      .select(select)
-      .match(filter);
+    let data: Quiz[] | null | undefined;
+    let fetchError: any;
+
+    if (sortBy === "created") {
+      let query = supabase
+        .from<Quiz>("quizzes")
+        .select(select)
+        .match(filter)
+        .order("created_at", { ascending: false });
+
+      if (nameQuery) {
+        query = query.ilike("name", `%${nameQuery}%`);
+      }
+
+      ({ data, error: fetchError } = await query);
+    } else {
+      const byCountResult = await supabase
+        .rpc("quizzes_by_play_count");
+
+      fetchError = byCountResult.error;
+      data = byCountResult.data?.map(q => ({
+        ...q,
+        author: {
+          id: q.author_id,
+          name: q.author_name
+        }
+      }));
+    }
 
     if (!data || fetchError) setError(true);
     else setQuizzes(data);
 
     setLoading(false);
-  }, [supabase, filter, select]);
+  // Don't want to fetch every time name query changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [supabase, select, filter, sortBy, triggerFetch]);
 
   const handleInsert = useCallback(async (
     { new: { id } }: SupabaseRealtimePayload<Definitions["quizzes"]>
@@ -96,8 +131,7 @@ const useQuizzes = (
 
     if (data) {
       setQuizzes(prev => {
-        const newQuizzes = prev ? prev.slice() : [];
-        newQuizzes.push(data[0]);
+        const newQuizzes = prev ? [data[0], ...prev.slice()] : [data[0]];
         return newQuizzes;
       });
     }
@@ -168,7 +202,8 @@ const useQuizzes = (
   return {
     loading,
     error,
-    data: quizzes
+    data: quizzes,
+    refetch: () => setTriggerFetch(triggerFetch + 1)
   };
 };
 

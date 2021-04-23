@@ -83,7 +83,7 @@ const MePage: FunctionComponent = () => {
               await addQuiz(
                 supabase,
                 // After validation
-                data as QuizInput,
+                data as unknown as QuizInput,
                 session.user.id
               );
 

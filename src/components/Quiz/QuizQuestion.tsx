@@ -25,8 +25,7 @@ const QuizQuestion: FunctionComponent<QuizQuestionProps> = ({
             offset: index % 2 === 0 ? 2 : undefined
           }}
           mobile={{
-            size: 6,
-            offset: 0
+            size: 6
           }}
         >
           <QuizOption
