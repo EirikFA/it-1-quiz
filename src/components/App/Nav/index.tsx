@@ -1,6 +1,7 @@
 import logo from "@assets/image/logo.png";
 import { FunctionComponent, useState } from "react";
 import { Navbar } from "react-bulma-components";
+import { Link } from "wouter";
 
 import NavLink from "./NavLink";
 
@@ -11,11 +12,15 @@ export interface NavProps {
 const Nav: FunctionComponent<NavProps> = ({ onLogout }) => {
   const [active, setActive] = useState(false);
 
+  const disable = () => setActive(false);
+
   return (
     <Navbar color="dark" active={active}>
       <Navbar.Brand>
-        <Navbar.Item renderAs="a" href="#">
-          <img src={logo} alt="ArWeb logo" width="82" height="28" />
+        <Navbar.Item>
+          <Link href="/">
+            <img src={logo} alt="ArWeb logo" width="82" height="28" />
+          </Link>
         </Navbar.Item>
 
         <Navbar.Burger onClick={() => setActive(!active)} />
@@ -23,8 +28,8 @@ const Nav: FunctionComponent<NavProps> = ({ onLogout }) => {
 
       <Navbar.Menu>
         <Navbar.Container>
-          <NavLink href="/">Browse quizzes</NavLink>
-          <NavLink href="/me">My quizzes</NavLink>
+          <NavLink href="/" onClick={disable}>Browse quizzes</NavLink>
+          <NavLink href="/me" onClick={disable}>My quizzes</NavLink>
         </Navbar.Container>
 
         <Navbar.Container position="end">

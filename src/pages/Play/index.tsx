@@ -123,7 +123,14 @@ const PlayPage: FunctionComponent<RouteComponentProps<PlayPageParams>> = ({ para
             </div>
           ))}
 
-          <Button color="link" size="large" loading={status.loading} type="submit">Submit</Button>
+          <Button
+            color="link"
+            size="large"
+            loading={status.loading}
+            disabled={status.markOptions}
+            type="submit"
+          >Submit
+          </Button>
           {quizError && <p className="has-text-danger">{quizError}</p>}
         </form>
       </Container>

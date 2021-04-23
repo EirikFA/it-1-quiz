@@ -199,7 +199,7 @@ const QuizForm: FunctionComponent<QuizFormProps> = ({
         </Columns>
 
         <Columns>
-          <Columns.Column>
+          <Columns.Column className="has-text-centered has-text-left-tablet">
             <Button
               color="link"
               disabled={questionI === 0}
@@ -220,7 +220,7 @@ const QuizForm: FunctionComponent<QuizFormProps> = ({
             </Button>
           </Columns.Column>
 
-          <Columns.Column className="has-text-right">
+          <Columns.Column className="has-text-centered has-text-right-tablet">
             <Button
               color="link"
               type="button"

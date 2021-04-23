@@ -16,12 +16,18 @@ const QuizQuestion: FunctionComponent<QuizQuestionProps> = ({
   <Fragment>
     <Heading size={4}>{prompt}</Heading>
 
-    <Columns multiline>
+    <Columns multiline className="is-mobile">
       {options.map(({ id, ...rest }, index) => (
         <Columns.Column
           key={id}
-          size={4}
-          offset={index % 2 === 0 ? 2 : undefined}
+          tablet={{
+            size: 4,
+            offset: index % 2 === 0 ? 2 : undefined
+          }}
+          mobile={{
+            size: 6,
+            offset: 0
+          }}
         >
           <QuizOption
             selected={selectedOption === id}
